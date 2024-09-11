@@ -7,6 +7,7 @@
 </head>
 <body>
     <p id="contactinfo"></p>
+    
     <script>
         const lecturer = {
             personname: "Marius Akerbæk",
@@ -16,9 +17,7 @@
             courses: ["Innføring i programmering", "Kommunikasjonsdesign", "UI Designprosjekt", "Utvikling av interaktive nettsteder"]
         }
 
-        const lecturer
-
-        document.getElementById("contactinfo").innerHTML = ´${lecturer.personname} sitter på kontor ${lecturer.office}. Epost: ${lecturer.email}. Favorittkurset hans er ${lecturer.courses[0]}.´
+        document.getElementById("contactinfo").innerHTML = `${lecturer.personname} sitter på kontor ${lecturer.office}. Epost: ${lecturer.email}. Favorittkurset hans er ${lecturer.courses[0]}.`
 
         console.log(document.getElementById("contactinfo"))
     </script>
