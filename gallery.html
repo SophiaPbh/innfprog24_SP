@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery example</title>
+    <style>
+        section { display: flex; gap: 1rem; }
+        article { max-width: 400px; border: 1px solid #333; padding: .5rem; }
+        article img { max-width: 100%; }
+    </style>
+</head>
+<body>
+    <section id="gallery">
+
+    </section> 
+
+    <script>
+        const images = [
+            {
+                title: "Silver Ice Cream",
+                imageURL: "https://images.unsplash.com/photo-1725961476494-efa87ae3106a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8",
+                photographer: "Galina Nelyubova"
+                },
+                {
+                title: "Beach",
+                imageURL: "https://images.unsplash.com/photo-1726007403882-e8f76fe5dc07?q=80&w=1919&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                photographer: "Taylor Holiday"
+                },
+                {
+                title: "Silver Ice Cream",
+                imageURL: "https://images.unsplash.com/photo-1725961476494-efa87ae3106a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8",
+                photographer: "Galina Nelyubova"
+                },
+                {
+                title: "Beach",
+                imageURL: "https://images.unsplash.com/photo-1726007403882-e8f76fe5dc07?q=80&w=1919&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                photographer: "Taylor Holiday"
+                },
+                {
+                title: "Silver Ice Cream",
+                imageURL: "https://images.unsplash.com/photo-1725961476494-efa87ae3106a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8",
+                photographer: "Galina Nelyubova"
+                },
+                {
+                title: "Beach",
+                imageURL: "https://images.unsplash.com/photo-1726007403882-e8f76fe5dc07?q=80&w=1919&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                photographer: "Taylor Holiday"
+                }
+        ]
+
+        images.map(image => document.getElementById("gallery").innerHTML += `<article>
+            <img src="${image.imageURL}" />
+            <p><strong>${image.title}</strong></p>
+            <p>Photographer: ${image.photographer}</p>
+        </article>`)
+    </script>
+</body>
+</html>
