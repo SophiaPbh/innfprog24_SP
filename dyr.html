@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="utskrift">?</p>
+
+    <script>
+
+        //Oppretter array med 10 dyrearter, og variabelen dyr.
+        const dyr = ["Hund", "Katt", "Hest", "Fisk", "Gaupe", "Løve", "Tiger", "Gris", "Flodhest", "Sau"]
+       
+        //Lager variabeler index og index2. Skal skrive ut dyr på index 3 og 7. Siden en array alltid starter på 0, blir variabelverdiene 2 og 6. 
+        const index = 2
+        const index2 = 6
+
+        //Skriver ut index variablene med id utskrift med template literal. 
+        document.getElementById("utskrift").innerHTML = `Her er det listet opp noen dyr, for eksempel ${dyr[index]} og ${dyr[index2]}`
+
+
+    </script>
+    
+</body>
+</html>
