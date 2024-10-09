@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oversette dyr til engelsk</title>
+</head>
+<body>
+
+    <p id="utskrift"></p>
+
+    <script>
+
+    //Oppretter array med 10 dyrearter, og variabelen dyr.
+    const dyr = ["Hund", "Katt", "Hest", "Fisk", "Gaupe", "Løve", "Tiger", "Gris", "Flodhest", "Sau"]
+    
+    //Lager en ny variabel kalt "animals",  som inneholder de 10 dyreartene ovenfor på engelsk
+    const animals = ["Dog", "Cat", "Horse", "Fish", "Lynx", "Lion", "Tiger", "Pig", "Hippopotamus", "Sheep"]
+
+    ///Bruker template literal
+    const dyreutskrift = `${dyr[2]} er et dyr. Det heter ${animals[2]} på engelsk.
+    ${dyr[8]} er også et dyr. Det heter ${animals[8]} på engelsk`
+
+    //Skriver ut setningen
+    document.getElementById("utskrift").innerHTML = dyreutskrift
+    </script>
+</body>
+</html>
