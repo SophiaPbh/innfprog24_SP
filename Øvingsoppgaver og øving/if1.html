@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="person"></p>
+
+
+    <script>
+        //Lager en variabel med mitt eget navn, og en annen som heter utskrift
+        const navn = "Sophia"
+        let person
+
+        //Lager if-test som sjekker følgende ting:
+        if(navn === "Sophia") {
+            person = "Mitt navn er " + navn
+        } else {
+            person = "Jeg heter ikke " + navn
+        }
+
+        document.getElementById("person").innerHTML = person
+    </script>
+    
+</body>
+</html>
