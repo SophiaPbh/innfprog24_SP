@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="utskrift"></p>
+
+    <script>
+                //Legger til arrayen fra øvingsoppgave 1 med 10 dyrearter, variabelen dyr.
+                const dyr = ["Hund", "Katt", "Hest", "Fisk", "Gaupe", "Løve", "Tiger", "Gris", "Flodhest", "Sau"]
+
+                console.log(dyr)
+
+                3. //Lager en variabel som heter antallDyr, hvor jeg også skal legge på to nye dyr.
+                const antallDyr = ["Hund", "Katt", "Hest", "Fisk", "Gaupe", "Løve", "Tiger", "Gris", "Flodhest", "Sau"]
+                
+                //Legger til to nye dyr i arrayen: 
+                antallDyr.push("Okse", "Høne")
+
+                //Nå sorterer jeg arrayen alfabetisk
+                antallDyr.sort()
+
+                //Bruker variabelen antallDyr med operatoren length for å finne ut hvor mange dyr det er i arrayen. Skriver ut til konsollen:
+                console.log("Så legger jeg til to nye dyr i arrayen, så det blir " + antallDyr.length + " dyr. " + "Rekkefølgen er alfabetisk.")
+                console.log(antallDyr)
+
+               //Så skriver jeg ut til p taggen med id utskrift, som vises på nettsiden.
+               //Skriver ut "Antall dyr: X. ", hvor X er variabelen med antallet dyr.
+                //Men for å få lengden av arrayen bak ordene "Antall dyr", hvor mange dyr det er i arrayen, legger jeg på operatoren length bak variabelen antallDyr
+                //Henter ut index 10(Okse) og index 11(Høne), lager variaber for den ene og den andre, indx og index. Så kan jeg bruke variablene til å få skrevet ut okse og høne i både p taggen og konsollen
+                //Skriver også ut dyrene separert med komma etter antallet ved hjelp av indexene deres
+                const index = antallDyr[9]
+                const indx = antallDyr[6]
+                console.log("Jeg la til " + index)
+                console.log("Jeg la også til " + indx)
+                const tekst = "Antall dyr: " + antallDyr.length + ". " + "Jeg la til " + index + " " + "og " + indx
+
+                //Skriver også ut dyrene separert med komma etter antallet ved hjelp av indexene deres
+                document.getElementById("utskrift").innerHTML = tekst + ". " + antallDyr.join(", ")
+    </script>
+</body>
+</html>
