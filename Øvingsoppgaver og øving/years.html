@@ -6,22 +6,24 @@
     <title>Document</title>
 </head>
 <body>
-    <ul id="events"></ul>
+    <ul id="events">
 
+    </ul>
     <script>
-        //lager en array med årstall
-        const years = ["1066", "1564", "1455", "1346", "1215"]
+        //Lager en variabel
+        const years = [1066, 1564, 1455, 1346, 1215]
+
+        //Sorterer tall i synkende rekkefølge
+        years.sort(function(a, b) {return b - a})
+
+        //Lag klar variabel for listeHTML:
         let eventHTML = ""
 
-        years.sort()
-        console.log(years)
+        //.map() alle årstall inn i eventHTML som listeelementer
+        years.map((year) => eventHTML += `<li>${year}</li>`)
 
-        years.map(
-            (item) => { eventHTML += `<li>ÅRSTALL ${item}</li>` }
-        )
-
+        //Skriv ut HTML til liste med id events:
         document.getElementById("events").innerHTML = eventHTML
     </script>
-    
 </body>
 </html>
