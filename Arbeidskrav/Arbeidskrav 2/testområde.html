@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+ <html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tripp, trapp, tresko</title>
+
+    <style>
+        body {
+            background: #ccc;
+            font-family: Helvetica;
+        }
+
+        body>* {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        #playerturn {
+            color: #34459e;
+            font-size: 3em;
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #playerturn2 {
+            color: #34459e;
+            font-size: 3em;
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #gamearea {
+            width: 600px;
+            height: 600px;
+            margin: 0 auto;
+            background-color: #34495e;
+            color: #fff;
+            border: 6px solid #2c3e50;
+            border-radius: 10px;
+            display: grid;
+            grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+        }
+
+        .celle {
+            border: 6px solid #2c3e50;
+            border-radius: 2px;
+            font-weight: bold;
+            font-size: 4em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        #newgame {
+            width: 300px;
+            padding: 20px;
+            display: block;
+            margin: 20px auto;
+            background: #6ea100;
+            border: 2px solid #000;
+            border-radius: 5px;
+            color: #000;
+            font-size: 2rem;
+            display: none;
+        }
+
+        #newgame:hover {
+            background: #364e01;
+            color: white;
+            cursor: pointer;
+        }
+
+        #button {
+            background: yellow;
+            color: black;
+            border: 2px 2px 2px 5px solid;
+            border-radius: 4px;
+            height: 30px;
+            width: 50px;
+        }
+
+        /* Ny seksjon for å vise antall spill */
+        #gamecount {
+            text-align: center;
+            font-size: 2em;
+            margin-top: 20px;
+            color: #2c3e50;
+        }
+    </style>
+
+</head>
+
+<body>
+    <section id="playerturn">Spiller <span id="player">1</span> (<span id="playermark">X</span>) sin tur:</section>
+    <section id="gamearea">
+        <div id="celle0" class="celle"></div>
+        <div id="celle1" class="celle"></div>
+        <div id="celle2" class="celle"></div>
+        <div id="celle3" class="celle"></div>
+        <div id="celle4" class="celle"></div>
+        <div id="celle5" class="celle"></div>
+        <div id="celle6" class="celle"></div>
+        <div id="celle7" class="celle"></div>
+        <div id="celle8" class="celle"></div>
+    </section>
+    <h1 id="playerturn"></h1>
+
+    <section id="newgame" onclick="restartGame()">Start spill på nytt</section>
+
+    <!-- Ny seksjon for å vise antall spill -->
+    <section id="gamecount">Antall spill: 1</section>
+
+    <script>
+        /* Første spillbrett = X, andre spillbrett = O
+        // Bakgrunnsfargen i div med id
+        playerturn, og spillermerkene i spillerekken blir gullfarget (#FFD700) når en spiller har
+        vunnet spillet.
+        // Når X vinner, og klikker på spillbrettet sitt.
+        // Id gamearea og playerturn tilhører spillVunnet()
+        // Id gamearea2 og playerturn2 tilhører spillTapt().
+        // Funksjonene onclick="spillVunnet()" og onclick="spillTapt()"
+        linkes til funksjonene spillVunnet() og spillTapt() nederst i HTML dokumentet. */
+
+        /* For å forstå hvorfor vi har celle-IDene 0 - 8 i HTML-koden over:
+        I alle programmeringsspråk brukes arrayer for å lagre strukturert informasjon.
+        I arrayer kan alt som lagres hentes ved å bruke indexen til plasseringen noe er lagret.
+        Indexene starter på 0, og blir 1 større for hver ting som lagres. Det vil si at spillerbrettet med
+        3x3 ruter har disse indexene:
+        0   1   2
+        3   4   5
+        6   7   8
+        Dermed kan vi se, hvis det er plassert en X i plassene med index 0, 1 og 2, at 
+        spilleren med spillermerket X vinner (har 3 på rad). Det samme ville han ha gjort
+        dersom det var lagret en X på indexene 0, 4 og 8 (diagonalt nedover).
+        Denne forståelsen av spillebrettet sammenlignet med en array (liste) vil være nyttig videre i forståelsen av koden. */
+
+        // Vi lager en variabel som inneholder spillerstatus
+        // Denne er aktiv (true) ved oppstart, og settes til false når en spiller vinner
+        // eller spillbrettet er fullt og det er uavgjort. Dette lar oss bruke variabelen
+        // spillStatus for å sjekke om spillet er aktivt og ulike deler av prosessen skal tillates/kjøres.
+        var spillStatus = true;
+
+        // Vi trenger variabler for spiller (hvilken spiller sin tur det er),
+        // og hvilket spillermerke den spilleren skal ha. Når spillet starter, er det 
+        // spiller 1 som begynner, og markerer sin plassering i brettet med et kryss (X)
+        var player = 1;
+        var playermark = "X";
+        document.getElementById("player").innerHTML = player;
+        document.getElementById("playermark").innerHTML = playermark;
+
+        // Så lager vi en teller for å se hvor mange spill vi har spilt:
+        var antallSpill = 1;
+
+        // Vi må også ha en oversikt over hvilke kombinasjoner av brikkeplasseringer 
+        // (indexer i spillerBrikker-arrayen) som utgjør vinnerkombinasjoner.
+        // Disse lagrer vi i en array med 2 nivåer (en array som inneholder nye arrayer med vinnerkombinasjonene)
+        var winningCombos = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        // Disse kan vi nå vise til ved å si winningCombos[0]. Variabelen winningCombos[0] inneholder nå en array med verdiene [0, 1, 2].
+        // Viser vi til winningCombos[0][1] viser vi til index 1 i den første arrayen på nivå 2. Den innholder verdien 1. 
+        // Denne verdien refererer til index 1 i spillerBrikker-arrayen under, eller spillbrettplassering med id 1
+
+        // For å kunne sammenligne vinnerkombinasjoner med hvor spillerne har plassert sine spillermerker,
+        // trenger vi en oversikt over Spillbrettplasseringer. Disse kan vi lagre i en array, siden vi fra
+        // starten av koden så at spillbrettet kan tenkes på som indexer i en array.
+        // Vi lager klar en oversikt, en array, med 9 tomme plasseringer vi senere kan fylle med spillervalg.
+        var spillerBrikker = ["", "", "", "", "", "", "", "", ""];
+
+        // Videre trenger vi å registrere når en spiller klikker på en rute i spillbrettet.
+        // Når en spiller klikker på en rute, skal vi få noe til å skje i koden, derfor kaller vi
+        // en funksjon kalt spill(), og sender en parameter inn i funksjonen for å fortelle hvilken rute
+        // (0-8, igjen trenger vi koblingen mellom array-indexer og spillbrettet fra starten av koden)
+        // som er trykket på.
+        for (let i = 0; i <= 8; i++) {
+            document.getElementById("celle" + i).addEventListener("click", function () {
+                spill(i);
+            });
+        }
+
+        // Når en rute er trykket på, skal vi kjøre funksjonen spill. Denne inneholder prosessen 
+        // datamaskinen må gå gjennom for å sjekke om ruten er ledig, og om den er det plassere
+        // riktig spillerbrikke i ruten avhengig av hvilken spiller det er som klikker på ruten:
+        function spill(celle) {
+            if (spillStatus === true) {
+                var cellSpace = document.getElementById("celle" + celle).innerHTML;
+
+                // Hvis cellen er tom, plasser riktig symbol på spillbrettet
+                if (cellSpace === "") {
+                    document.getElementById("celle" + celle).innerHTML = playermark;
+                    spillerBrikker[celle] = playermark;
+
+                    //Verdien til document id demo kommer i p taggen øverst i html dokumentet
+                    //Lenger ned i html dokumentet har jeg setTimeout(function() { //kode som kjøres...}, 1000);
+                    //Den ligger i function sjekkVinner(). 
+                    //Function sjekkVinner() lenger ned i html dokumentet.
+                    //Den er linket til if(sjekkVinner()) nedenfor denne teksten, siden det er den samme funksjonen(samme navn)
+                    //Teksten "1 sek.." i p taggen vil dukke opp etter 1 sek, med vinnerresultatet
+                    //Sjekk om noen har vunnet etter trekket
+                }
+            }
+
+                    if (sjekkVinner()) {
+                        const myTimeout = setTimeout(sjekkVinner, 1000);
+                    document.getElementById("playerturn").innerHTML = "Spiller " + player + " vant!";
+                    document.getElementById("playerturn").style.backgroundColor = '#FFD700'; // Bakgrunnsfarge ved seier
+                    document.getElementById("gamearea").style.backgroundColor = '#FFD700'; // Bakgrunnsfarge ved seier
+                    document.getElementById("newgame").style.display = "block";
+                    spillStatus = false;
+                    return;
+                    }
+
+                    // Hvis brettet er fullt og ingen har vunnet, er det uavgjort
+                    if (!spillerBrikker.includes("")) {
+                        document.getElementById("playerturn").innerHTML = "Uavgjort! Ingen vant...";
+                        document.getElementById("newgame").style.display = "block";
+                        spillStatus = false;
+                        return;
+                    }
+
+                        if (sjekkVinner()) {
+                            const myTimeout = setTimeout(sjekkVinner, 1000);
+                        document.getElementById("playerturn").innerHTML = "Uavgjort! Ingen vant..";
+                        document.getElementById("newgame").style.display = "block";
+                        spillStatus = false;
+                        return;
+                    }
+
+                    // Bytt til neste spiller
+                    player = player === 1 ? 2 : 1;
+                    playermark = playermark === "X" ? "O" : "X";
+                    document.getElementById("player").innerHTML = player;
+                    document.getElementById("playermark").innerHTML = playermark;
+                }
+
+        // Når brikken er plassert på spillerbrettet, må vi sjekke om den - og brikkene rundt - 
+        // utgjør en vinnerkombinasjon. Denne funksjonaliteten ligger i funksjonen sjekkVinner()
+        //Koden skal også bruke 1 sekund før den sjekker om en spill har vunnet
+        //Legger til setTimeout(function() { //kode som kjøres...}, 1000)
+        //Lager en variabel som heter myTimeout
+        //Variabelen myTimeout har verdien setTimeout, etterfulgt av funksjonen sjekkVinner, og 1000 ms/1sek.
+                    function sjekkVinner() {
+            for (let combination of winningCombos) {
+                var [a, b, c] = combination;
+                if (spillerBrikker[a] && spillerBrikker[a] === spillerBrikker[b] && spillerBrikker[a] === spillerBrikker[c]) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Når et spill er avsluttet, og et nytt skal begynne, må vi gjøre klar en del ting:
+        // 1) Fjerne brikkene som er plassert på brettet - både i grensesnittet og i programmet vårt
+        // 2) Sette spillstatus til true, slik at vi får lov til å trykke på rutene i spillbrettet igjen
+        // 3) Sette turen til spiller en og spillersymbolet til X
+        // 4) Fjerne melding om vinner eller uavgjort, og oppdatere med spillers tur-tekst
+        function restartGame() {
+            // 1) Fjern brikker fra brettet
+            spillerBrikker = ["", "", "", "", "", "", "", "", ""];
+            for (let i = 0; i <= 8; i++) {
+                document.getElementById("celle" + i).innerHTML = "";
+            }
+            // 2) Spillstatus = true
+            spillStatus = true;
+            // 3) Turen starter på spiller 1
+            player = 1;
+            playermark = "X";
+            // 4) Oppdater meldingen om spillers tur
+            document.getElementById("playerturn").innerHTML = 'Spiller <span id="player">1</span> (<span id="playermark">X</span>) sin tur:';
+            document.getElementById("newgame").style.display = "none";
+
+            // Tilbakestill bakgrunnsfargen når nytt spill starter
+            document.getElementById("gamearea").style.backgroundColor = '#34495e';
+            document.getElementById("playerturn").style.backgroundColor = '#ccc';
+
+            // Oppdaterer antall spill som er spilt
+            antallSpill++;
+            document.getElementById("gamecount").innerHTML = "Antall spill: " + antallSpill;
+        }
+    </script>
+
+</body>
+
+</html>
