@@ -6,36 +6,45 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>IOS games</h1>
-    <ul>filter</ul>
+    <h1>iOS games</h1>
+    <ul id="filter"></ul>
 </body>
 
 <script>
+
 const games = [
-    {
-        title: "Angry Birds",
-        platforms: ["iOS", "Android"]
-    },
-    {
-        title: "Nongram",
-        platforms: ["Android"]
-    },
-    {
-        title: "Plants vs Zombies",
-        platforms: ["iOS", "Android", "Windows", "MacOS"]
-    },
-    {
-        title: "Punball",
-        platforms: ["Windows", "Android"]
-    },
-    {
-        title: "Planet Zoo",
-        platforms: ["Windows", "MacOS"]
-    },
-    {
-        title: "Woordle",
-        platforms: ["iOS", "MacOS"]
-    },
-]
+            {
+            title: "Angry Birds",
+            platforms: ["iOS", "Android"]
+            },
+            {
+            title: "Nongram",
+            platforms: ["Android"]
+            },
+            {
+            title: "Plants vs Zombies",
+            platforms: ["iOS", "Android", "Windows", "MacOS"]
+            },
+            {
+            title: "Punball",
+            platforms: ["Windows", "Android"]
+            },
+            {
+            title: "Planet Zoo",
+            platforms: ["Windows", "MacOS"]
+            },
+            {
+            title: "Woordle",
+            platforms: ["iOS", "MacOS"]
+            }
+        ]
+
+        //Use filter and includes
+const setGames = games.filter((platform) => platform.platforms.includes("iOS"))
+
+// Use map
+// Map the results in setGames to the list:
+document.getElementById("filter").innerHTML = setGames.map((platform) => `<li>${platform.platforms}</li>`).join('');
+
 </script>
 </html>
