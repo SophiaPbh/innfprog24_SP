@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+
+//Når vi setter console.log over teller = teller + 1; vil man få skrevet ut tallene 0 til 5.
+//Tallene 0 til 5 kommer hver for seg i konsollen under hverandre med denne koden:
+/*
+        let teller = 0;
+
+        while(teller <= 5) {
+            console.log(teller);
+            teller = teller + 1;
+        }
+
+Men hva skjer når jeg setter teller = teller + 1; før console.log?
+                */
+
+        let teller = 0; 
+        while(teller <= 5) {
+            teller = teller + 1;
+            console.log(teller);
+        }
+
+        //Da så jeg at jeg fikk skrevet ut 1 til 6, istedenfor 0 til 5.
+        //Ikke prøv eksempelet å droppe teller = teller + 1.
+
+    </script>
+</body>
+</html>
