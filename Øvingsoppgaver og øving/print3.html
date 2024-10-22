@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="name"></p>
+    <p id="mail"></p>
+    <p id="age"></p>
+
+    <script>
+//Lag en funksjon, kalt InfoPrint(), som...
+        function namePrint(name = "Ikke oppgitt", birthyear = "Ikke oppgitt", email = "Ikke oppgitt") {
+                        //...skriver deretter ut verdien av parameteren name til #name, og...
+            document.getElementById("name").innerHTML = name
+            if(birthyear === "Ikke oppgitt") {
+         //...er den det, skriv ut "Ikke oppgitt"...
+         document.getElementById("age").innerHTML = birthyear
+            //...ellers...
+        } else {
+ //...sørg for at datatypen blir et tall...
+ const birthYearNumber = Number(birthyear)
+   //...og regn ut alderen, lagret i variabelen age...
+   const age = 2024 - birthYearNumber
+     //...og skriv alder ut til #age
+     document.getElementById("age").innerHTML = age
+    }
+                //...skriver ut verdien av parameteren email til #mail.
+                document.getElementById("mail").innerHTML = email
+        }
+
+                //Kjør funksjonen med og uten parametere for å se at dette fungerer.
+                namePrint("Sophia", 1998)
+    </script>
+</body>
+</html>

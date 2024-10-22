@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="name"></p>
+    <p id="age"></p>
+    <p id="mail"></p>
+
+    <script>
+        //lager en funksjon med tre parametere i script taggen
+        function Info(name, birthyear, email) {
+            const birthday = 26
+            document.getElementById("name").innerHTML = name
+             document.getElementById("age").innerHTML = 2024 - birthyear
+              document.getElementById("mail").innerHTML = email
+        }
+
+        //kjør funksjonen med de 3 forventede parameterne: name, birthday, email
+        Info("Sophia", 1998, "sphelset@hiof.no")
+    </script>
+</body>
+</html>
