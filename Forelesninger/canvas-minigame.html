@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Animation cheat sheet</title>
+    <style>
+        body {
+            background: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="anim-area"></canvas>
+
+    <script>
+        //Canvas konfigurasjon:
+        const c = document.getElementById("anim-area")
+        c.width = 900
+        c.height = 600
+        const ctx = c.getContext("2d")
+
+
+        //RequestAnimationFrame: automatiser nye bildetegninger
+        const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.mozRequestAnimationFrame
+
+        //Definerer startpunkter forsirkelen:
+        const hero = {
+            x: 100,
+            y: 100,
+            w: 15,
+            h: 15
+        }
+
+        //Definerer variabler for å sjekke om en retning er aktiv
+        let up = false
+        let down = false
+        let right = false
+        let left = false
+
+        //Sjekk om en retning er aktivert med piltast:
+        document.addEventListener("keydown", function(event) {
+            if(event.key === "d" || event.key === "ArrowRight") {
+                right = true
+            }
+            if(event.key === "s" || event.key === "ArrowDown") {
+            down = true
+            }
+            if(event.key === "a" || event.key === "ArrowLeft") {
+                left = true
+            }
+            if(event.key === "w" || event.key === "ArrowUp") {
+                up = true
+            }
+        })
+
+        document.addEventListener("keyup", function(event) {
+            if(event.key === "d" || event.key === "ArrowRight") {
+                right = false
+            }
+            if(event.key === "s" || event.key === "ArrowDown") {
+                down = false
+            }
+            if(event.key === "a" || event.key === "ArrowLeft") {
+                left = false
+            }
+            if(event.key === "w" || event.key === "ArrowUp") {
+                up = false
+            }
+        })
+
+
+        //Rekursiv funksjon som kaller seg selv avhengig av skjerm/nettleser den vises i
+        function frames() {
+            //Tøm frame for ny opptegning:
+            ctx.clearRect(0,0,c.width,c.height)
+            
+            //Tegne helten
+            ctx.beginPath()
+            ctx.rect(hero.x, hero.y, hero.w, hero.h)
+            ctx.fill()
+            ctx.closePath()
+
+            //Sjekker etter bevegelse:
+            right ? hero.x = hero.x + 3 : null
+            
+            //Testutskrift for å bekrefte at requestAnimationFrame kjører
+            console.log("requestAnimationFrame fungerer")
+            //Rekursivt kall:
+            requestAnimationFrame(frames)  
+        }
+        //Kaller frames()-funksjon første gang:
+        frames()
+    </script>
+</body>
+</html>
