@@ -30,12 +30,25 @@
         //RequestAnimationFrame: automatiser nye bildetegninger
         const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.mozRequestAnimationFrame
 
-        //Definerer startpunkter forsirkelen:
+        //Spillkonfigurajon:
+        const game = {
+            speed: 3,
+            count: 0
+        }
+
+        //Definerer startpunkter for helten:
         const hero = {
             x: 100,
             y: 100,
             w: 15,
             h: 15
+        }
+        //Definerer gullfjellet:
+        const goldmountain = {
+            x: c.width / 2 - 25,
+            y: c.height / 2 - 25, 
+            w: 50,
+            h: 50
         }
 
         //Definerer variabler for å sjekke om en retning er aktiv
@@ -58,6 +71,9 @@
             if(event.key === "w" || event.key === "ArrowUp") {
                 up = true
             }
+            if(event.key === "h") {
+                game.speed = 10
+            }
         })
 
         document.addEventListener("keyup", function(event) {
@@ -73,23 +89,72 @@
             if(event.key === "w" || event.key === "ArrowUp") {
                 up = false
             }
+            if(event.key === "h") {
+                game.speed = 3
+            }
         })
 
+
+        //Funksjon for å tegne firkanter
+        function drawRect(x = 0, y = 0, w = 10, h = 10, color = "#000000") {
+            ctx.beginPath()
+            ctx.rect(x, y, w, h)
+            ctx.fillStyle = color
+            ctx.fill()
+            ctx.closePath()
+        }
+
+        //Funksjon for randomisering
+        function randomMinMax(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min)
+        }
 
         //Rekursiv funksjon som kaller seg selv avhengig av skjerm/nettleser den vises i
         function frames() {
             //Tøm frame for ny opptegning:
             ctx.clearRect(0,0,c.width,c.height)
-            
+
             //Tegne helten
-            ctx.beginPath()
-            ctx.rect(hero.x, hero.y, hero.w, hero.h)
-            ctx.fill()
-            ctx.closePath()
+            drawRect(hero.x, hero.y, hero.w, hero.h, "#6ea100")
+            //Tegne hinder
+            drawRect(goldmountain.x, goldmountain.y, goldmountain.w, goldmountain.h, "orange")
+            //Tegne/skrive ut count:
+            ctx.fillText(game.count, 10, 60)
+            ctx.font = "30px Arial"
+            ct.fillStyle = "#000000"
 
             //Sjekker etter bevegelse:
-            right ? hero.x = hero.x + 3 : null
-            
+            right ? hero.x = hero.x + game.speed : null
+            left ? hero.x = hero.x - game.speed : null
+            up ? hero.y = hero.y - game.speed : null
+            down ? hero.y = hero.y + game.speed : null
+
+            //Sjekker om firkant er utenfor canvas
+            if(hero.x < 0) {
+                hero.x = c.width
+            }
+            if(hero.x > c.width) {
+                hero.x = 0
+            }
+            if(hero.y < 0) {
+                hero.y = c.height
+            }
+            if(hero.y > c.height) {
+                hero.y = 0
+            }
+
+            //Sjekker om helt kolliderer med orange firkant
+            if(
+                hero.x + hero.w > goldmountain.x && 
+                hero.x < goldmountain.x + goldmountain.w &&
+                hero.y + hero.h > goldmountain.y &&
+                hero.y < goldmountain.y + goldmountain.h
+            ) {
+                console.log(game.count)
+                hero.x = randomMinMax(0, c.width - hero.w)
+                hero.y = randomMinMax(0, c.height - hero.h)
+                game.count = game.count + 1 
+            }
             //Testutskrift for å bekrefte at requestAnimationFrame kjører
             console.log("requestAnimationFrame fungerer")
             //Rekursivt kall:

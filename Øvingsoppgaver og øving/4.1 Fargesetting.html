@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .red { color: #FF0000; }
+    </style>
+</head>
+<body>
+    <ul id="red"></li>
+
+    <script>
+        //Opprett funksjon
+        function calculator(num1 = 0, num2 = 0) {
+            //Lag variabler soz
+            const sumSub = num1 - num2
+
+            //Bygg en template literal med listeelementer, 
+            //(Oppg. 4.1) som sjekker resultatet og skriver ut class="red" dersom resultatet er mindre enn 0
+            document.getElementById("red").innerHTML = `
+                <li ${sumSub < 0 ? `class="red"` : null}>${num1} - ${num2} = ${sumSub}</li>
+            `
+        }
+
+              //Kjør funksjonen med to tall
+              calculator(4,8)
+</script>
+</body>
+</html>
+
