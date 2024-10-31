@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas cheat sheet</title>
+    <style>
+            body {
+            background: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            background: white;
+        }
+    </style>
+    <style>
+        body {
+            background: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="drawingarea"></canvas>
+
+    <script>
+        //Standard config av canvas
+        const canvas = document.getElementById("drawingarea")
+        canvas.width = 800
+        canvas.height = 600
+        const ctx = canvas.getContext("2d")
+
+        //TEGN ET EKSISTERENDE BILDE INN I CANVAS
+        const fortran = new Image(128, 128)
+        let fortranLoaded = false
+        fortran.onload = () => { 
+            ctx.drawImage(fortran, 0, 0, 128, 128)
+        }
+        fortran.src = "fortran.png"
+    </script>
+</body>
+</html>

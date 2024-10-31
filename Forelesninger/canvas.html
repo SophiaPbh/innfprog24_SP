@@ -11,7 +11,6 @@
             justify-content: center;
             align-items: center;
         }
-
         canvas {
             background: white;
         }
@@ -21,7 +20,7 @@
     <canvas id="drawingarea"></canvas>
 
     <script>
-        //Standard config av Canvas
+        //Standard config av canvas
         const canvas = document.getElementById("drawingarea")
         canvas.width = 800
         canvas.height = 600
@@ -34,7 +33,7 @@
         ctx.stroke()
         ctx.closePath()
 
-        //RECTANGLES (RECT)
+        //RECTANGELS (RECT)
         ctx.beginPath()
         ctx.rect(100, 100, 200, 200)
         ctx.fillStyle = "green"
@@ -56,17 +55,17 @@
         ctx.font = "150px Georgia"
         ctx.strokeText("5", 360, 420)
         ctx.font = "24px Arial"
-        ctx.fillStyle ="purple"
+        ctx.fillStyle = "purple"
         ctx.fillText("Marius", 300, 100)
         ctx.closePath()
 
         //TEGN ET EKSISTERENDE BILDE INN I CANVAS
         const pumpkin = new Image(128, 128)
         let pumpkinLoaded = false
-        pumpkin.onload = () => { pumpkinLoaded = true; console.log(pumpkinLoaded)}
+        pumpkin.onload = () => { 
+            ctx.drawImage(pumpkin, 0, 0, 128, 128)
+        }
         pumpkin.src = "pumpkin.png"
-        ctx.drawImage(pumpkin, 50, 50)
-        pumpkinLoaded ? ctx.drawImage(pumpkin, 600, 50, 128, 128) : null
     </script>
 </body>
 </html>
