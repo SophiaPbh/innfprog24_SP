@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Workshop Game</title>
-    <link href="styles.css" rel="stylesheet" media="screen" />
+    <link href="style.css" rel="stylesheet" media="screen" />
     <link rel="apple-touch-icon" sizes="180x180" href="meta/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="meta/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="meta/favicon-16x16.png">
@@ -12,9 +12,22 @@
     <link rel="mask-icon" href="meta/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
+    <style>
+        body {
+            background: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            background: white;
+        }
+
+    </style>
 </head>
 <body>
     <header>
+        <canvas id="drawing-area"></canvas>
         <section id="player">
             <ul>
                 <li><img src="icons/shield.svg"> <span id="playerName">Marius</span></li>
@@ -31,8 +44,8 @@
         </nav>
     </header>
     <main>
-        <canvas id="anim-area"></canvas>
-        <section id="notebook" class="hidden">
+        
+        <section id="notebook">
             <div id="notebook-page">
                 
                 <h2>Notater</h2>
@@ -74,21 +87,45 @@
         </section>
     </main>
     <script>
-        //PREPARE GAME CONFIG AND VARIABLES
-        //Canvas-configuration:
-        const canvas = document.getElementById("anim-area")
-        canvas.width = 800
-        canvas.height = 600
-        const ctx = canvas.getContext("2d")
+        //Canvas konfigurasjon:
+        const c = document.getElementById("drawing-area")
+        c.width = 800
+        c.height = 600
+        const ctx = c.getContext("2d")
 
+        //TEGN ET EKSISTERENDE BILDE INN I CANVAS
+        const fortran = new Image(128, 128)
+        let fortranLoaded = false
+        fortran.onload = () => { 
+            ctx.drawImage(fortran, 0, 0, 128, 128)
+        }
+        fortran.src = "fortran.png"
+
+        
+        //RECTANGEL (RECT)
+        ctx.beginPath()
+        ctx.rect(590, 560, 215, 50) 
+        ctx.fillStyle = "white"
+        ctx.stroke()
+        ctx.fill()
+        ctx.closePath()
+
+        //TEXT
+        ctx.beginPath()
+        ctx.fill()
+        ctx.font = "24px Arial"
+        ctx.fillStyle ="#3c429b"
+        ctx.fillText("Press P to unpause", 590, 590)
+        ctx.closePath()
+
+
+        //PREPARE GAME CONFIG AND VARIABLES
         //TODO: config
         const gameConfig = {
             playerName: "Jostein",
             energy: 10,
             points: 4000,
-            duration: 30,
-            gamePaused: false,
-            gamePausedText: "Press P to pause"
+            duration: 30
         }
 
         console.log(gameConfig)
@@ -99,16 +136,6 @@
             loops: 4,
             functions: 3,
             arrays: 7
-        }
-
-        //WS3, Oppg 5.1: Array med spillelementtyper:
-        const itemTypes = ["variable", "function", "loop", "array", "bug", "energydrink"]
-
-        //Konfigurerer Fortran:
-        const fortran = {
-            speed: 5,
-            x: canvas.width / 2,
-            y: canvas.height / 2
         }
 
         
@@ -184,75 +211,6 @@
         updateConfigValue("energy", -3)
         updateConfigValue("duration", 100)
         updateConfigValue("loops", 1000)
-
-        
-
-        //WS3, Oppg 3: Fortran
-        let fortranLoaded = false
-        let fortranImage = new Image()
-        fortranImage.src = "icons/fortran.png"
-        fortranImage.onload = () => { fortranLoaded = true; }
-
-        //WS3, Oppg. 5.2: drawItem()
-        function drawItem(type, x, y) {
-            let itemImage = new Image()
-            itemImage.src = `icons/${type}.svg`
-            itemImage.onload = () => { ctx.drawImage(itemImage, x, y) }
-            //WS3, Oppg. 5.3: Utskrift av levetid:
-            if(type != "bug") {
-                ctx.beginPath()
-                ctx.arc(x, y, 10, 0, 2 * Math.PI)
-                ctx.fillStyle = "red"
-                ctx.fill()
-                ctx.fillStyle = "white"
-                ctx.font = "11px Verdana"
-                ctx.fillText("99", x - 7, y + 4)
-                ctx.closePath()
-            }
-        }
-
-        const requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame
-
-        function drawElements() {
-            console.log("requestAnimationFrame kjører")
-
-            if(fortranLoaded === true) {
-                ctx.drawImage(fortranImage, fortran.x, fortran.y)
-            }
-
-            //WS3, Oppg 4.2: 
-            if(gameConfig.gamePaused === true) {
-                ctx.beginPath()
-                ctx.font = "100px Arial"
-                ctx.fillStyle = "red"
-                ctx.fillText("PAUSED", 250, 300)
-                ctx.closePath()
-
-                //Oppdatere pauseinfotekst:
-                gameConfig.gamePausedText = "Press P to unpause"
-            } else {
-                gameConfig.gamePausedText = "Press P to pause"
-            }
-
-            //WS3, oppg 5.2 test:
-            drawItem("function", 50, 100)
-            drawItem("bug", 400, 500)
-
-            //WS3, Oppg 2: Pausetext
-            ctx.beginPath()
-            ctx.fillStyle = "#ffffff"
-            ctx.fillRect(650, 570, 200, 30)
-            ctx.fillStyle = "#3c429b"
-            ctx.font = "15px Arial"
-            ctx.fillText(gameConfig.gamePausedText, 660, 590)
-            ctx.closePath()
-
-            requestAnimationFrame(drawElements)
-        }
-
-        drawElements()
-
-
 
     </script>
 </body>

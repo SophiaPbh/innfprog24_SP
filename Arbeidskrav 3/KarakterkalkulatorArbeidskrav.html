@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karakterkalkulator</title>
+</head>
+<body>
+  <h1 style="color: green;">Karakterkalkulator</h1>
+  <label for="eksamen1"><p style="color: slateblue;">Poeng eksamen oppgave 1</p></label>
+  <input type="number" id="eksamen1" required>
+  <label for="eksamen2"><p style="color: royalblue;">Poeng eksamen oppgave 2</p></label>
+  <input type="number" id="eksamen2" required>
+  <button onclick="Kalkulasjon()">Beregn karakter</button>
+  <p id="resultat"></p>
+</body>
+
+<script>
+//Lager funksjonen Kalkulasjon(), som også button heter, i button onclick="Kalkulasjon()">Beregn karakter</button>
+//Lager variabelene eksamen1Poeng og eksamen2Poeng
+//Variabelene skal skrive ut poeng for utregningene i eksamensoppgave 1 og 2
+//For å få skrevet ut poeng fra karakterkalkulatoren, brukes parseInt sammen med value
+
+    function Kalkulasjon() {
+  const eksamen1Poeng = parseInt(document.getElementById("eksamen1").value);
+  const eksamen2Poeng = parseInt(document.getElementById("eksamen2").value);
+
+//Lager variabler for største poengsum i oppgave 1 og 2
+const StorPoengsum1 = 10;
+const StorPoengsum2 = 12;
+
+  
+//Regner ut prosenten
+  const prosent = (0.3 * (eksamen1Poeng / StorPoengsum1 * 100)) + (0.7 * (eksamen2Poeng / StorPoengsum2 * 100));
+
+
+//Arrayen fra oppgaveteksten som har både karakterene og thresholdet
+  const grades = [
+ {grade: "F", treshold: 0},
+ {grade: "E", treshold: 25},
+ {grade: "D", treshold: 44},
+ {grade: "C", treshold: 68},
+ {grade: "B", treshold: 88},
+ {grade: "A", treshold: 100}
+]
+
+
+//Kalkulererer de ulike karakterene med prosent
+  if (prosent >= 100) {
+    grade = "A";
+  } else if (prosent >= 88) {
+    grade = "B";
+  } else if (prosent >= 68) {
+    grade = "C";
+  } else if (prosent >= 44) {
+    grade = "D";
+  } else if (prosent >= 25) {
+    grade = "E";
+  } else {
+    grade = "F";
+  }
+
+  
+//Skriver ut resultatet
+  document.getElementById("resultat").textContent = `Din karakter er: ${grade} (${prosent.toFixed(2)}%)`;
+}
+</script>
+</html>
